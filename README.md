@@ -1,85 +1,139 @@
-# 🎁 A Magical 25th Birthday Surprise — for Habil
+﻿# 🎁 Birthday Surprise Website
 
-An interactive, mobile-first birthday story in 7 stages:
+A polished, mobile-first birthday experience that turns a few photos, messages, gifts, and sound effects into an unforgettable interactive story.
 
-1. **Welcome** — "Psst... Habil 👀", live countdown, a gift box you can shake, then open
-2. **Celebration** — confetti, a giant animated 25, a two-tier cake with 25 candles → make a wish → blow them out (tap, or blow into the mic) → sweet message
-3. **Memories** — swipeable polaroid scrapbook (tap a photo to enlarge)
-4. **A / B / C / D** — four mystery cards; A glows; tapping B/C/D gets teased 😏; A flips open, then the others show "not this time"
-5. **Buffet reveal** — drumroll → *A BUFFET DATE!* → King of the Grill card + voucher + "Reveal more details"
-6. **Bonus** — "Wait a minute..." → *NOPE!* → a royal gift box (tap 3×) → flash, rays, confetti → holographic Berjaya Times Square Theme Park voucher (tilts when you drag across it)
-7. **Finale** — heartfelt letter → *One Last Birthday Surprise ✨* → balloons, hearts, confetti, giant 25, replay
+This project is designed to be reusable: keep the experience, replace the example content, and deploy your own personalized surprise in minutes.
 
-Extras: soft music-box "Happy Birthday" (starts only after the first tap, mute button top-right), synthesized sound effects, birthday mode on 12 Nov (crown on the gift + special greeting), progress bar you can tap to revisit stages, restart button, stage saved across refreshes, reduced-motion support, and a hidden Easter egg.
+## ✨ Features
 
-> 🤫 **Easter egg:** on the cake screen, tap the big **25** five times.
+- Seven guided surprise stages with animated transitions
+- Live birthday countdown and automatic birthday mode
+- Interactive gift, birthday cake, wish, and candle-blowing experiences
+- Photo-memory gallery with swipeable and expandable cards
+- Interactive A/B/C/D choice and reveal scenes
+- Personal gift voucher screens with configurable details
+- Confetti, hearts, balloons, and motion effects
+- Built-in music box and optional custom audio files
+- Progress navigation, replay controls, and saved stage progress
+- Microphone candle-blowing support where the browser allows it
+- Reduced-motion and mobile-friendly support
+- Hidden Easter egg included
 
----
+## 🖼️ Preview
 
-## Run it
+The experience begins with a personalized welcome, continues through memories and choices, reveals planned gifts, and ends with a heartfelt final message.
 
-Needs [Node.js](https://nodejs.org) 20 or newer.
+> Birthday mode can be previewed at any time by opening the site with `?birthday=1`.
+
+## 🚀 Quick Start
+
+### Requirements
+
+- Node.js 20 or newer
+- npm
+
+### Run locally
 
 ```bash
 npm install
 npm run dev
 ```
 
-Open the URL it prints. To test on your phone, use the **Network** URL shown (same Wi-Fi).
+Open the local URL shown by Vite. Use the Network URL on another device connected to the same network to preview it on mobile.
 
-- Preview birthday mode early: add `?birthday=1` to the URL.
-- Start over any time with the ↺ button (top-left), or the replay button at the end.
+### Production build
 
-## Replace the photos 📸
+```bash
+npm run build
+npm run preview
+```
 
-1. Put your pictures in **`public/images/`** — e.g. `memory-1.jpg` … `memory-8.jpg`.
-2. Open **`src/config/birthday.ts`** → `memories.photos` and set each photo's:
-   - `src` — `'/images/your-file.jpg'`
-   - `caption` — any text, or `''` for none
-   - `orientation` — `'portrait'`, `'landscape'` or `'square'` (sets the frame shape)
-3. Add or remove entries freely (6–10 looks best). Missing files show a cute placeholder automatically.
+## 🎨 Make It Yours
 
-Tip: resize photos to ~1200px on the long side so they load fast on mobile data.
+Most customization happens in one place:
 
-## Edit the messages ✍️
+**[`src/config/birthday.ts`](src/config/birthday.ts)**
 
-Everything lives in **`src/config/birthday.ts`** — name, age, date, every message, button labels, the A/B/C/D options, buffet details, theme park text, the Easter egg and the sign-off (`signature`). Each paragraph of a message is one item in its array.
+Configure:
 
-- **Buffet details** (`buffet.details`): once you have the real date/time, update the `When` line. Nothing about bookings or prices is invented.
-- **Theme park voucher**: it's labelled as a *Birthday Surprise Voucher* with a "not an admission ticket" note. Change `bonus.ticketFinePrint` if you want.
+- Recipient name, age, and birthday date
+- Welcome and countdown copy
+- Birthday message and final letter
+- Memory photo captions
+- Choice-card labels and teaser messages
+- Gift, treat, venue, and voucher details
+- Sign-off and footer
+- Easter egg copy
+- Background music and sound effects
 
-## Music & sounds 🎵
+Keep placeholder gifts clearly marked as placeholders or replace them with real arrangements before sharing the surprise.
 
-- Built-in: a gentle synthesized music box plays "Happy Birthday" — no files needed.
-- Your own song: put an mp3 in `public/audio/` and set `audio.music: '/audio/your-song.mp3'`.
-- Custom effects: set any of `audio.sfx.open / pop / chime / fanfare / blow` to an mp3 path. Empty = built-in sound.
+### Add photos
 
-Browsers only allow sound after a tap, so music starts when he presses **Open Your Surprise**.
+Place your images in `public/images/`, for example:
 
-## Deploy (free) 🚀
+```text
+public/images/memory-1.jpg
+public/images/memory-2.jpg
+public/images/memory-3.jpg
+```
+
+Then update each entry in `birthday.memories.photos`:
+
+```ts
+{
+  src: '/images/memory-1.jpg',
+  caption: 'Where it all started ✨',
+  orientation: 'portrait'
+}
+```
+
+Supported orientations are `portrait`, `landscape`, and `square`. Missing images automatically show a friendly placeholder.
+
+For the best balance of quality and loading speed, resize images to approximately 1200 px on the longest side.
+
+### Add music or sound effects
+
+The experience includes synthesized music and effects by default.
+
+To use your own audio, place supported files in `public/audio/` and update `birthday.audio.music` or the entries under `birthday.audio.sfx`.
+
+Browsers normally allow audio only after the recipient taps the welcome button.
+
+## 🌐 Deployment
+
+### GitHub Pages
+
+This repository includes `.github/workflows/deploy.yml`. Push to the `main` branch and GitHub Actions will build and publish the site.
+
+After the first workflow run, enable Pages under:
+
+**Repository → Settings → Pages → Source: GitHub Actions**
+
+### Other static hosts
 
 ```bash
 npm run build
 ```
 
-This creates the **`dist/`** folder — a static site. Pick one:
+Upload the contents of `dist/` to Netlify Drop, Vercel, Cloudflare Pages, or another static host. The Vite configuration uses relative paths so the build can also work when hosted below a repository sub-path.
 
-- **Netlify Drop (easiest):** go to <https://app.netlify.com/drop> and drag the `dist` folder in. You get a link instantly.
-- **Vercel:** `npx vercel` in this folder (framework: Vite, output: `dist`).
-- **GitHub Pages / any static host:** upload the contents of `dist/`. The build uses relative paths, so it works in a sub-folder too.
+## 🗂️ Project Structure
 
-After changing photos or text, run `npm run build` again and re-upload `dist/`.
-
-## Project map
-
-```
-src/config/birthday.ts   ← edit this
-src/stages/              ← the 7 stages
-src/components/          ← gift box, cake, decorations, countdown, buttons
-src/lib/audio.ts         ← music + sound effects
-src/lib/fx.ts            ← confetti + date helpers
-public/images/           ← your photos
-public/audio/            ← optional music / sounds
+```text
+src/config/birthday.ts   All personalized content
+src/stages/              The seven experience stages
+src/components/          Reusable interactive components
+src/lib/                 Audio and visual effects
+public/images/           Personal photos
+public/audio/            Optional custom audio
+.github/workflows/       Automatic GitHub Pages deployment
 ```
 
-Built with React, Vite, TypeScript, Tailwind CSS, Framer Motion, Lucide icons and canvas-confetti. Fonts (Fraunces, Caveat, DM Sans) are bundled, so nothing loads from outside.
+## 🧰 Built With
+
+React, TypeScript, Vite, Tailwind CSS, Framer Motion, Lucide, canvas-confetti, and bundled web fonts.
+
+## 📄 License
+
+This project is provided as a personal-use starter. Add a license file if you plan to publish or redistribute customized versions publicly.
