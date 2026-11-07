@@ -1,0 +1,2 @@
+Optional: put background music / sound effect mp3 files here
+and set their paths in src/config/birthday.ts (audio).
