@@ -100,21 +100,43 @@ export function Choice({ next }: StageProps) {
                     )}
                   </div>
                   {/* back — revealed */}
-                  <div
-                    className={`absolute inset-0 flex flex-col items-center justify-center gap-1 rounded-3xl border-2 p-3 ${
-                      isChosen ? 'border-[#e9c57e] bg-gradient-to-br from-[#fffaf0] to-[#fde3ea] shadow-[0_18px_40px_-12px_rgba(201,154,75,0.75)]' : 'border-white/70 bg-white/60 opacity-75 grayscale-[40%]'
-                    }`}
-                    style={{ backfaceVisibility: 'hidden', WebkitBackfaceVisibility: 'hidden', transform: 'rotateY(180deg)' }}
-                  >
-                    <span className="font-display text-lg font-black text-[#8f6524]">{o.letter}</span>
-                    <span className={isChosen ? 'text-5xl' : 'text-3xl'}>{o.emoji}</span>
-                    <span className={`font-display font-extrabold leading-tight text-[#3a2740] ${isChosen ? 'text-xl' : 'text-base'}`}>{o.label}</span>
-                    {isChosen ? (
-                      <span className="mt-1 rounded-full bg-[#c99a4b] px-3 py-0.5 text-xs font-bold text-white">your pick ✓</span>
-                    ) : (
-                      <span className="font-hand text-lg text-[#6b5570]">{ch.notChosenLabel}</span>
-                    )}
-                  </div>
+                  {o.image ? (
+                    <div
+                      className={`absolute inset-0 overflow-hidden rounded-3xl border-2 bg-[#3a2740] ${
+                        isChosen ? 'border-[#e9c57e] shadow-[0_18px_40px_-12px_rgba(201,154,75,0.75)]' : 'border-white/70 opacity-80 grayscale-[55%]'
+                      }`}
+                      style={{ backfaceVisibility: 'hidden', WebkitBackfaceVisibility: 'hidden', transform: 'rotateY(180deg)' }}
+                    >
+                      <img src={o.image} alt="" loading="lazy" draggable={false} className="absolute inset-0 h-full w-full object-cover" />
+                      <div className="absolute inset-0 bg-gradient-to-t from-[#1d1130]/90 via-[#1d1130]/35 to-transparent" />
+                      <span className="absolute left-2 top-2 grid h-8 w-8 place-items-center rounded-full bg-white/90 font-display text-base font-black text-[#9c3a5c] shadow">{o.letter}</span>
+                      {isChosen && (
+                        <span className="absolute right-2 top-2 rounded-full bg-[#c99a4b] px-2.5 py-0.5 text-xs font-bold text-white shadow">your pick ✓</span>
+                      )}
+                      <div className="absolute inset-x-0 bottom-0 flex flex-col items-center gap-0.5 p-2.5 text-white">
+                        <span className={`font-display font-extrabold leading-tight drop-shadow ${isChosen ? 'text-xl' : 'text-base'}`}>
+                          {o.emoji} {o.label}
+                        </span>
+                        {!isChosen && <span className="font-hand text-lg leading-none text-[#fff1cf]">{ch.notChosenLabel}</span>}
+                      </div>
+                    </div>
+                  ) : (
+                    <div
+                      className={`absolute inset-0 flex flex-col items-center justify-center gap-1 rounded-3xl border-2 p-3 ${
+                        isChosen ? 'border-[#e9c57e] bg-gradient-to-br from-[#fffaf0] to-[#fde3ea] shadow-[0_18px_40px_-12px_rgba(201,154,75,0.75)]' : 'border-white/70 bg-white/60 opacity-75 grayscale-[40%]'
+                      }`}
+                      style={{ backfaceVisibility: 'hidden', WebkitBackfaceVisibility: 'hidden', transform: 'rotateY(180deg)' }}
+                    >
+                      <span className="font-display text-lg font-black text-[#8f6524]">{o.letter}</span>
+                      <span className={isChosen ? 'text-5xl' : 'text-3xl'}>{o.emoji}</span>
+                      <span className={`font-display font-extrabold leading-tight text-[#3a2740] ${isChosen ? 'text-xl' : 'text-base'}`}>{o.label}</span>
+                      {isChosen ? (
+                        <span className="mt-1 rounded-full bg-[#c99a4b] px-3 py-0.5 text-xs font-bold text-white">your pick ✓</span>
+                      ) : (
+                        <span className="font-hand text-lg text-[#6b5570]">{ch.notChosenLabel}</span>
+                      )}
+                    </div>
+                  )}
                 </motion.div>
               </motion.div>
             </motion.button>
@@ -138,6 +160,26 @@ export function Choice({ next }: StageProps) {
           )}
         </AnimatePresence>
       </div>
+
+      {othersShown && ch.options.some((o) => o.credit) && (
+        <details className="-mt-2 max-w-[420px] text-[0.7rem] leading-snug text-[#6b5570]/80">
+          <summary className="cursor-pointer list-none underline decoration-dotted underline-offset-2">📷 Photo credits</summary>
+          <p className="mt-1">
+            {ch.options
+              .filter((o) => o.credit)
+              .map((o, i) => (
+                <span key={o.letter}>
+                  {i > 0 && ' · '}
+                  {o.letter}:{' '}
+                  <a href={o.credit!.url} target="_blank" rel="noreferrer" className="underline">
+                    {o.credit!.author}
+                  </a>{' '}
+                  ({o.credit!.license}, Wikimedia Commons)
+                </span>
+              ))}
+          </p>
+        </details>
+      )}
     </section>
   );
 }

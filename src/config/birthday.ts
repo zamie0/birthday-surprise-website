@@ -84,12 +84,41 @@ export const birthday = {
     question: 'Remember when I asked you to choose A, B, C or D? 👀',
     hint: 'You picked A... remember?',
     chosen: 'A',
+    /**
+     * image: shown on the card once it flips (put files in /public/images/choice/).
+     * Use '' for no photo (falls back to the emoji).
+     * credit: required for the Creative Commons photos below. Keep it if you keep the photo.
+     */
     options: [
-      { letter: 'A', label: 'Buffet', emoji: '🍖' },
-      { letter: 'B', label: 'LEGOLAND', emoji: '🧱' },
-      { letter: 'C', label: '5-Star Hotel', emoji: '🏨' },
-      { letter: 'D', label: 'Genting Highlands', emoji: '🚠' },
-    ],
+      {
+        letter: 'A',
+        label: 'Buffet',
+        emoji: '🍖',
+        image: 'images/choice/a-buffet.jpg',
+        credit: { author: 'Geoffreyrabbit', license: 'CC BY-SA 4.0', url: 'https://commons.wikimedia.org/wiki/File:Grilled_meat_collection_in_buffet.jpg' },
+      },
+      {
+        letter: 'B',
+        label: 'LEGOLAND',
+        emoji: '🧱',
+        image: 'images/choice/b-legoland.jpg',
+        credit: { author: 'milst1', license: 'CC BY-SA 2.0', url: 'https://commons.wikimedia.org/wiki/File:Entrance_Legoland_Malaysia.jpg' },
+      },
+      {
+        letter: 'C',
+        label: '5-Star Hotel',
+        emoji: '🏨',
+        image: 'images/choice/c-hotel.jpg',
+        credit: { author: 'Basile Morin', license: 'CC BY-SA 4.0', url: 'https://commons.wikimedia.org/wiki/File:Canopy_bed_of_Amantaka_Suite_in_Amantaka_luxury_Resort_%26_Hotel_in_Luang_Prabang_Laos.jpg' },
+      },
+      {
+        letter: 'D',
+        label: 'Genting Highlands',
+        emoji: '🚠',
+        image: 'images/choice/d-genting.jpg',
+        credit: { author: 'Chongkian', license: 'CC BY-SA 4.0', url: 'https://commons.wikimedia.org/wiki/File:Awana_Skyway.jpg' },
+      },
+    ] as ChoiceOption[],
     /** Shown if he taps B, C or D first. */
     wrongTapLines: [
       'Nice try 😏 You picked A!',
@@ -195,6 +224,14 @@ export type Photo = {
   src: string;
   caption?: string;
   orientation: 'portrait' | 'landscape' | 'square';
+};
+
+export type ChoiceOption = {
+  letter: string;
+  label: string;
+  emoji: string;
+  image?: string;
+  credit?: { author: string; license: string; url: string };
 };
 
 export type BirthdayConfig = typeof birthday;
