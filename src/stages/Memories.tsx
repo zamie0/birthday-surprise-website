@@ -52,7 +52,7 @@ export function Memories({ next }: StageProps) {
   };
 
   return (
-    <section className="relative flex min-h-dvh flex-col items-center gap-6 pb-[calc(var(--safe-bottom)+5rem)] pt-[calc(var(--safe-top)+5rem)] text-center">
+    <section className="relative flex min-h-dvh flex-col items-center gap-6 pb-[calc(var(--safe-bottom)+8rem)] pt-[calc(var(--safe-top)+5rem)] text-center">
       <div className="flex max-w-md flex-col items-center gap-3 px-6">
         <motion.h2 variants={rise} initial="hidden" animate="show" custom={0} className="font-display text-[2rem] font-black leading-tight text-[#3a2740] sm:text-5xl">
           {m.heading}
@@ -124,10 +124,13 @@ export function Memories({ next }: StageProps) {
         <p className="mt-2 text-sm text-[#6b5570]">← swipe through our memories →</p>
       </div>
 
-      <motion.div variants={rise} initial="hidden" animate="show" custom={6} className="px-6">
-        <Button onClick={next}>{m.nextButton}</Button>
-      </motion.div>
-
+      <Portal>
+        <div className="pointer-events-none fixed inset-x-0 bottom-0 z-40 flex justify-center bg-gradient-to-t from-[#fffaf2] via-[#fffaf2]/95 to-transparent px-4 pt-6 pb-[calc(var(--safe-bottom)+1rem)]">
+          <Button onClick={next} className="pointer-events-auto w-full max-w-sm">
+            {m.nextButton}
+          </Button>
+        </div>
+      </Portal>
       <Portal>
       <AnimatePresence>
         {lightbox !== null && (
