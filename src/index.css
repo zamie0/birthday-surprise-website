@@ -37,7 +37,13 @@ body {
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
   -webkit-tap-highlight-color: transparent;
-  overflow-x: hidden;
+}
+
+/* Clip sideways overflow on <html> only. `overflow-x: hidden` on both html and body
+   turns <body> into its own scroll box on phones, which traps touch swipes and makes
+   the page hard to scroll. `clip` hides the overflow without creating a scroll box. */
+html {
+  overflow-x: clip;
 }
 
 #root {

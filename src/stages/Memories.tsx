@@ -52,7 +52,7 @@ export function Memories({ next }: StageProps) {
   };
 
   return (
-    <section className="relative flex min-h-dvh flex-col items-center gap-6 pb-[calc(var(--safe-bottom)+8rem)] pt-[calc(var(--safe-top)+5rem)] text-center">
+    <section className="relative flex min-h-dvh flex-col items-center gap-6 pb-[calc(var(--safe-bottom)+6rem)] pt-[calc(var(--safe-top)+5rem)] text-center">
       <div className="flex max-w-md flex-col items-center gap-3 px-6">
         <motion.h2 variants={rise} initial="hidden" animate="show" custom={0} className="font-display text-[2rem] font-black leading-tight text-[#3a2740] sm:text-5xl">
           {m.heading}
@@ -66,7 +66,7 @@ export function Memories({ next }: StageProps) {
       <div className="relative w-full">
         <div
           ref={scroller}
-          className="no-scrollbar flex snap-x snap-mandatory items-center gap-5 overflow-x-auto overscroll-x-contain px-[12vw] py-8 sm:px-[calc(50vw-200px)]"
+          className="no-scrollbar flex snap-x snap-mandatory items-center gap-5 overflow-x-auto overscroll-x-contain px-[12vw] py-6 [touch-action:pan-x_pan-y] sm:px-[calc(50vw-200px)]"
           role="list"
           aria-label="Photo memories — swipe to browse"
         >
@@ -124,13 +124,12 @@ export function Memories({ next }: StageProps) {
         <p className="mt-2 text-sm text-[#6b5570]">← swipe through our memories →</p>
       </div>
 
-      <Portal>
-        <div className="pointer-events-none fixed inset-x-0 bottom-0 z-40 flex justify-center bg-gradient-to-t from-[#fffaf2] via-[#fffaf2]/95 to-transparent px-4 pt-6 pb-[calc(var(--safe-bottom)+1rem)]">
-          <Button onClick={next} className="pointer-events-auto w-full max-w-sm">
-            {m.nextButton}
-          </Button>
-        </div>
-      </Portal>
+      <motion.div variants={rise} initial="hidden" animate="show" custom={3} className="flex w-full justify-center px-6">
+        <Button onClick={next} className="w-full max-w-sm">
+          {m.nextButton}
+        </Button>
+      </motion.div>
+
       <Portal>
       <AnimatePresence>
         {lightbox !== null && (
