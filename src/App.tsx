@@ -3,8 +3,7 @@ import { Cake as CakeIcon, Camera, Gift, Heart, RotateCcw, Ticket, UtensilsCross
 import { useCallback, useEffect, useState } from 'react';
 import { birthday } from './config/birthday';
 import { Decor } from './components/Decor';
-import { isMuted, onMuteChange, setMuted, sfx } from './lib/audio';
-import { heartBurst } from './lib/fx';
+import { isMuted, onMuteChange, setMuted } from './lib/audio';
 import { Welcome } from './stages/Welcome';
 import { Celebration } from './stages/Celebration';
 import { Memories } from './stages/Memories';
@@ -126,7 +125,7 @@ export default function App() {
         </IconButton>
 
         {stage > 0 ? (
-          <nav aria-label="Surprise progress" className="flex items-center gap-0.5 rounded-full bg-white/55 px-1.5 py-1.5 min-[360px]:gap-1 min-[360px]:px-2 shadow-sm backdrop-blur-md">
+          <nav aria-label="Surprise progress" className="flex items-center gap-0.5 rounded-full bg-white/85 px-1.5 py-1.5 min-[360px]:gap-1 min-[360px]:px-2 shadow-sm">
             {STAGES.map((s, i) => {
               const Icon = s.icon;
               const done = i < stage;
@@ -178,24 +177,6 @@ export default function App() {
         </AnimatePresence>
       </main>
 
-      <footer
-        className="float-y relative z-10 -mt-16 flex justify-center"
-        style={{ paddingBottom: 'calc(var(--safe-bottom) + 1rem)', '--dur': '5s' } as React.CSSProperties}
-      >
-        <button
-          type="button"
-          onClick={(e) => {
-            const r = (e.currentTarget as HTMLElement).getBoundingClientRect();
-            heartBurst((r.left + r.width / 2) / window.innerWidth, r.top / window.innerHeight);
-            sfx('pop');
-          }}
-          className={`pointer-events-auto rounded-full px-4 py-1.5 font-hand text-lg shadow-sm backdrop-blur-md transition ${
-            theme === 'night' ? 'bg-white/10 text-[#fff1cf]' : 'bg-white/65 text-[#9c3a5c]'
-          }`}
-        >
-          {birthday.footer}
-        </button>
-      </footer>
     </MotionConfig>
   );
 }
@@ -219,8 +200,8 @@ function IconButton({
       aria-label={label}
       title={label}
       onClick={onClick}
-      className={`grid h-11 w-11 shrink-0 place-items-center rounded-full shadow-sm backdrop-blur-md transition active:scale-90 ${
-        night ? 'bg-white/12 text-[#fff1cf] ring-1 ring-white/20' : 'bg-white/70 text-[#8f6524] ring-1 ring-[#ecd3a0]'
+      className={`grid h-11 w-11 shrink-0 place-items-center rounded-full shadow-sm transition active:scale-90 ${
+        night ? 'bg-[#3a2458]/85 text-[#fff1cf] ring-1 ring-white/20' : 'bg-white/85 text-[#8f6524] ring-1 ring-[#ecd3a0]'
       } ${hidden ? 'invisible' : ''}`}
     >
       {children}

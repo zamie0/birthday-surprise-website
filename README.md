@@ -62,7 +62,7 @@ Configure:
 - Memory photo captions
 - Choice-card labels and teaser messages
 - Gift, treat, venue, and voucher details
-- Sign-off and footer
+- Sign-off
 - Easter egg copy
 - Background music and sound effects
 

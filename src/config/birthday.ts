@@ -25,9 +25,6 @@ export const birthday = {
   /** Who it's from — shown as the sign-off on the final letter. */
   signature: 'With all my love, me ❤️',
 
-  /** Small floating credit at the bottom of the screen. */
-  footer: `Made with ❤️ for ${name}`,
-
   // ── Stage 1 · Welcome ────────────────────────────────────────
   welcome: {
     teaser: `Psst... ${name} 👀`,
@@ -165,6 +162,11 @@ export const birthday = {
     headline: 'BONUS BIRTHDAY SURPRISE! 🎢🎟️',
     place: 'BERJAYA TIMES SQUARE THEME PARK!',
     ticketPlace: 'Berjaya Times Square Theme Park',
+    /** Photo at the top of the ticket ('' to hide). Keep the credit if you keep this photo. */
+    ticketPhoto: 'images/bonus/theme-park.jpg',
+    ticketPhotoCredit: { author: 'Cmglee', license: 'CC BY-SA 3.0', url: 'https://commons.wikimedia.org/wiki/File:Berjaya_Times_Square_theme_park.jpg' } as
+      | { author: string; license: string; url: string }
+      | null,
     ticketLabel: 'Birthday Surprise Voucher',
     ticketGoodFor: 'Good for: one day of rides, screams & laughs together',
     /** Keep this unless you add real ticket details. */

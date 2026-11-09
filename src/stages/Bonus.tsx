@@ -211,15 +211,24 @@ function ThemeParkTicket() {
         style={{ rotateX: rx, rotateY: ry, '--notch': '74%' } as never}
         className="holo ticket-notch relative overflow-hidden rounded-[1.75rem] bg-[linear-gradient(135deg,#f9d2de_0%,#e2d3fa_35%,#fff1cf_60%,#f6bfd0_100%)] text-left text-[#3a2740] shadow-[0_30px_80px_-20px_rgba(236,211,160,0.55)]"
       >
-        {/* decorative coaster track */}
-        <svg viewBox="0 0 360 120" className="absolute inset-x-0 top-0 h-28 w-full opacity-40" aria-hidden preserveAspectRatio="none">
-          <path d="M0 95 C 60 20, 100 20, 140 80 S 230 120, 270 40 S 340 30, 360 70" stroke="#9c3a5c" strokeWidth="3" fill="none" />
-          <path d="M0 103 C 60 28, 100 28, 140 88 S 230 128, 270 48 S 340 38, 360 78" stroke="#9c3a5c" strokeWidth="2" fill="none" strokeDasharray="2 6" />
-        </svg>
+        {bo.ticketPhoto ? (
+          <div className="relative h-44 overflow-hidden">
+            <img src={bo.ticketPhoto} alt={`${bo.ticketPlace} roller coaster`} draggable={false} className="absolute inset-0 h-full w-full object-cover" />
+            {/* fade the photo into the ticket colours */}
+            <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-b from-transparent to-[#f6d6e2]" />
+            <span className="absolute left-4 top-4 rounded-full bg-white/85 px-3 py-1 text-[0.65rem] font-bold uppercase tracking-[0.2em] text-[#9c3a5c] shadow">🎢 Kuala Lumpur</span>
+          </div>
+        ) : (
+          /* decorative coaster track */
+          <svg viewBox="0 0 360 120" className="absolute inset-x-0 top-0 h-28 w-full opacity-40" aria-hidden preserveAspectRatio="none">
+            <path d="M0 95 C 60 20, 100 20, 140 80 S 230 120, 270 40 S 340 30, 360 70" stroke="#9c3a5c" strokeWidth="3" fill="none" />
+            <path d="M0 103 C 60 28, 100 28, 140 88 S 230 128, 270 48 S 340 38, 360 78" stroke="#9c3a5c" strokeWidth="2" fill="none" strokeDasharray="2 6" />
+          </svg>
+        )}
         <Sparkle className="absolute right-5 top-5" size={22} color="#c99a4b" />
-        <Sparkle className="absolute right-12 top-14" size={12} color="#9c3a5c" />
+        <Sparkle className="absolute right-12 top-14" size={12} color="#fff1cf" />
 
-        <div className="relative px-6 pb-5 pt-7">
+        <div className={`relative px-6 pb-5 ${bo.ticketPhoto ? 'pt-3' : 'pt-7'}`}>
           <p className="text-[0.65rem] font-bold uppercase tracking-[0.3em] text-[#8f6524]">{bo.ticketLabel}</p>
           <p className="mt-2 font-display text-[1.65rem] font-black leading-tight text-[#9c3a5c]">{bo.ticketPlace}</p>
           <p className="mt-2 text-[0.95rem] leading-snug text-[#3a2740]">🎢 {bo.ticketGoodFor}</p>
@@ -238,7 +247,19 @@ function ThemeParkTicket() {
             edition
           </div>
         </div>
-        <p className="relative bg-white/40 px-6 py-2 text-[0.68rem] text-[#6b5570]">{bo.ticketFinePrint}</p>
+        <p className="relative bg-white/40 px-6 py-2 text-[0.68rem] text-[#6b5570]">
+          {bo.ticketFinePrint}
+          {bo.ticketPhoto && bo.ticketPhotoCredit && (
+            <>
+              {' '}
+              Photo:{' '}
+              <a href={bo.ticketPhotoCredit.url} target="_blank" rel="noreferrer" className="underline">
+                {bo.ticketPhotoCredit.author}
+              </a>
+              , {bo.ticketPhotoCredit.license}, Wikimedia Commons.
+            </>
+          )}
+        </p>
       </motion.div>
     </motion.div>
   );

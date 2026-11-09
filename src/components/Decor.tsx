@@ -55,15 +55,15 @@ function DecorImpl({ theme }: { theme: 'night' | 'day' }) {
       {/* soft glows */}
       {isNight ? (
         <>
-          <div className="absolute -left-24 top-[10%] h-72 w-72 rounded-full bg-[#7c4fb8]/40 blur-3xl" />
-          <div className="absolute -right-20 bottom-[8%] h-80 w-80 rounded-full bg-[#c4517a]/30 blur-3xl" />
-          <div className="absolute left-1/2 top-1/2 h-64 w-64 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#ecd3a0]/15 blur-3xl" />
+          <div className="absolute -left-24 top-[10%] h-72 w-72 scale-150 bg-[radial-gradient(closest-side,rgba(124,79,184,0.4),transparent)]" />
+          <div className="absolute -right-20 bottom-[8%] h-80 w-80 scale-150 bg-[radial-gradient(closest-side,rgba(196,81,122,0.3),transparent)]" />
+          <div className="absolute left-1/2 top-1/2 h-64 w-64 -translate-x-1/2 -translate-y-1/2 scale-150 bg-[radial-gradient(closest-side,rgba(236,211,160,0.15),transparent)]" />
         </>
       ) : (
         <>
-          <div className="absolute -left-24 top-[5%] h-80 w-80 rounded-full bg-[#f8c9d4]/60 blur-3xl" />
-          <div className="absolute -right-24 top-[40%] h-80 w-80 rounded-full bg-[#dccff5]/70 blur-3xl" />
-          <div className="absolute bottom-[-6rem] left-[20%] h-72 w-72 rounded-full bg-[#ecd3a0]/45 blur-3xl" />
+          <div className="absolute -left-24 top-[5%] h-80 w-80 scale-150 bg-[radial-gradient(closest-side,rgba(248,201,212,0.6),transparent)]" />
+          <div className="absolute -right-24 top-[40%] h-80 w-80 scale-150 bg-[radial-gradient(closest-side,rgba(220,207,245,0.7),transparent)]" />
+          <div className="absolute bottom-[-6rem] left-[20%] h-72 w-72 scale-150 bg-[radial-gradient(closest-side,rgba(236,211,160,0.45),transparent)]" />
         </>
       )}
 

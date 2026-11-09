@@ -66,7 +66,7 @@ export function Memories({ next }: StageProps) {
       <div className="relative w-full">
         <div
           ref={scroller}
-          className="no-scrollbar flex snap-x snap-mandatory items-center gap-5 overflow-x-auto overscroll-x-contain px-[12vw] py-6 [touch-action:pan-x_pan-y] sm:px-[calc(50vw-200px)]"
+          className="no-scrollbar flex snap-x snap-mandatory items-center gap-5 overflow-x-auto overflow-y-hidden overscroll-x-contain px-[12vw] py-6 [touch-action:pan-x_pan-y] sm:px-[calc(50vw-200px)]"
           role="list"
           aria-label="Photo memories — swipe to browse"
         >
