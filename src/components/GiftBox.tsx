@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion';
+import { MotionConfig, motion } from 'framer-motion';
 
 type Props = {
   open?: boolean;
@@ -17,10 +17,11 @@ export function GiftBox({ open = false, variant = 'classic', size = 220, shake =
   const p = palettes[variant];
   const id = variant;
   return (
+    <MotionConfig reducedMotion="never">
     <motion.div
       key={shake}
-      animate={shake ? { rotate: [0, -7, 7, -5, 5, 0], scale: [1, 1.06, 1] } : {}}
-      transition={{ duration: 0.45 }}
+      animate={shake ? { rotate: [0, -14, 12, -10, 8, -4, 0], x: [0, -6, 6, -4, 4, 0], scale: [1, 1.08, 1] } : {}}
+      transition={{ duration: 0.55 }}
       style={{ width: size, height: size }}
       className="relative"
     >
@@ -85,5 +86,6 @@ export function GiftBox({ open = false, variant = 'classic', size = 220, shake =
         </motion.g>
       </svg>
     </motion.div>
+    </MotionConfig>
   );
 }

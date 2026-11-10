@@ -16,6 +16,8 @@ let muted = readMuted();
 let musicOn = false;
 let musicEl: HTMLAudioElement | null = null;
 let musicTimer: number | null = null;
+/** True once the guest has opened the gift (music should be playing). */
+let musicStarted = false;
 const listeners = new Set<(m: boolean) => void>();
 
 function readMuted() {
@@ -38,9 +40,41 @@ function ensureCtx() {
   master.gain.value = muted ? 0 : 1;
   master.connect(ctx.destination);
   musicGain = ctx.createGain();
-  musicGain.gain.value = birthday.audio.musicVolume * 0.5;
+  musicGain.gain.value = birthday.audio.musicVolume * 1.6;
   musicGain.connect(master);
   return ctx;
+}
+
+/**
+ * iOS: Web Audio is silenced by the ring/silent switch unless the page's
+ * audio session is "playback". Use the Audio Session API when available,
+ * otherwise play a silent <audio> element, which switches the session.
+ */
+type NavWithSession = Navigator & { audioSession?: { type: string } };
+let silentEl: HTMLAudioElement | null = null;
+const SILENT_WAV =
+  'data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEAQB8AAIA+AAACABAAZGF0YQAAAAA=';
+
+export function restorePlayback() {
+  const nav = navigator as NavWithSession;
+  try {
+    if (nav.audioSession) nav.audioSession.type = 'playback';
+  } catch {
+    /* ignore */
+  }
+  if (!nav.audioSession) {
+    try {
+      if (!silentEl) {
+        silentEl = new Audio(SILENT_WAV);
+        silentEl.loop = true;
+        silentEl.setAttribute('playsinline', '');
+      }
+      void silentEl.play().catch(() => {});
+    } catch {
+      /* ignore */
+    }
+  }
+  if (ctx && ctx.state !== 'running') void ctx.resume().catch(() => {});
 }
 
 export function isMuted() {
@@ -63,6 +97,11 @@ export function setMuted(m: boolean) {
   }
   if (master && ctx) master.gain.setTargetAtTime(m ? 0 : 1, ctx.currentTime, 0.05);
   if (musicEl) musicEl.muted = m;
+  if (!m) {
+    // Unmuting is a user gesture: make sure audio is actually running.
+    restorePlayback();
+    if (musicStarted) startMusic();
+  }
   listeners.forEach((l) => l(m));
 }
 
@@ -202,14 +241,22 @@ function scheduleMusicLoop() {
 }
 
 export function startMusic() {
+  musicStarted = true;
+  restorePlayback();
   if (musicOn) return;
   musicOn = true;
+  try {
+    sessionStorage.setItem('habil-music', '1');
+  } catch {
+    /* ignore */
+  }
   const src = birthday.audio.music;
   if (src) {
     musicEl = new Audio(src);
     musicEl.loop = true;
     musicEl.volume = birthday.audio.musicVolume;
     musicEl.muted = muted;
+    musicEl.setAttribute('playsinline', '');
     musicEl.play().catch(() => {
       musicEl = null;
       if (ensureCtx()) scheduleMusicLoop();
@@ -236,4 +283,28 @@ export function stopMusic() {
 /** Call from a tap handler so the AudioContext is unlocked on iOS. */
 export function unlockAudio() {
   ensureCtx();
+  restorePlayback();
+}
+
+// If the page was reloaded after the gift was opened (stage is restored from
+// sessionStorage), restart the music on the next tap anywhere.
+if (typeof window !== 'undefined') {
+  let wanted = false;
+  try {
+    wanted = sessionStorage.getItem('habil-music') === '1' || Number(sessionStorage.getItem('habil-stage')) > 0;
+  } catch {
+    /* ignore */
+  }
+  const onGesture = () => {
+    unlockAudio();
+    if (wanted && !musicOn) startMusic();
+  };
+  window.addEventListener('pointerdown', onGesture, { passive: true });
+  window.addEventListener('keydown', onGesture);
+  // Browsers suspend audio in the background / after interruptions (calls, Siri).
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'visible' && ctx && ctx.state !== 'running') {
+      void ctx.resume().catch(() => {});
+    }
+  });
 }

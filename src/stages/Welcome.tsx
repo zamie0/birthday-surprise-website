@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import type { StageProps } from '../App';
 import { birthday } from '../config/birthday';
 import { Button, Foil } from '../components/ui';
@@ -13,6 +13,47 @@ export function Welcome({ next }: StageProps) {
   const [shake, setShake] = useState(0);
   const isToday = dayMode() === 'today';
   const w = birthday.welcome;
+  const lastShake = useRef(0);
+  const motionAsked = useRef(false);
+
+  const shakeBox = useCallback(() => {
+    const now = Date.now();
+    if (now - lastShake.current < 350) return;
+    lastShake.current = now;
+    sfx('pop');
+    setShake((s) => s + 1);
+    try {
+      navigator.vibrate?.(40);
+    } catch {
+      /* ignore */
+    }
+  }, []);
+
+  // Physically shaking the phone shakes the box.
+  useEffect(() => {
+    if (opening) return;
+    let prev: { x: number; y: number; z: number } | null = null;
+    const onMotion = (e: DeviceMotionEvent) => {
+      const a = e.accelerationIncludingGravity ?? e.acceleration;
+      if (!a || a.x == null || a.y == null || a.z == null) return;
+      const cur = { x: a.x, y: a.y, z: a.z };
+      if (prev) {
+        const delta = Math.abs(cur.x - prev.x) + Math.abs(cur.y - prev.y) + Math.abs(cur.z - prev.z);
+        if (delta > 22) shakeBox();
+      }
+      prev = cur;
+    };
+    window.addEventListener('devicemotion', onMotion);
+    return () => window.removeEventListener('devicemotion', onMotion);
+  }, [opening, shakeBox]);
+
+  // iOS 13+ needs permission for motion events, requested from a tap.
+  const askMotion = () => {
+    if (motionAsked.current) return;
+    motionAsked.current = true;
+    const DME = (window as unknown as { DeviceMotionEvent?: { requestPermission?: () => Promise<string> } }).DeviceMotionEvent;
+    if (DME?.requestPermission) void DME.requestPermission().catch(() => {});
+  };
 
   const open = () => {
     if (opening) return;
@@ -58,8 +99,8 @@ export function Welcome({ next }: StageProps) {
         transition={{ delay: 2.2, type: 'spring', stiffness: 160, damping: 14 }}
         onClick={() => {
           unlockAudio();
-          sfx('pop');
-          setShake((s) => s + 1);
+          askMotion();
+          shakeBox();
         }}
       >
         <div className="absolute inset-0 -z-10 rounded-full bg-[#ecd3a0]/25 blur-3xl" />

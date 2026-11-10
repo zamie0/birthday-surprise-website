@@ -7,7 +7,7 @@ import { Button, rise } from '../components/ui';
 import { Cake } from '../components/Cake';
 import { Balloon } from '../components/Decor';
 import { Portal } from '../components/Portal';
-import { sfx } from '../lib/audio';
+import { restorePlayback, sfx } from '../lib/audio';
 import { burst, cannons, starShower } from '../lib/fx';
 
 type Phase = 'wish' | 'blowing' | 'done';
@@ -103,6 +103,8 @@ export function Celebration({ next }: StageProps) {
         stream.getTracks().forEach((tr) => tr.stop());
         void ac.close();
         setMicOn(false);
+        // iOS routes audio to the quiet earpiece while the mic is active; switch back.
+        restorePlayback();
       };
     } catch {
       setMicError('No mic? No problem — just tap the button 😄');
