@@ -71,7 +71,7 @@ export const birthday = {
       { src: '/images/memory-5.jpg', caption: 'Adventure mode: ON', orientation: 'landscape' },
       { src: '/images/memory-6.jpg', caption: 'Us being us 🤭', orientation: 'portrait' },
       { src: '/images/memory-7.jpg', caption: 'Little moments, big smiles', orientation: 'portrait' },
-      { src: '/images/memory-8.jpg', caption: 'To many more like this ❤️', orientation: 'landscape' },
+      { src: '/images/memory-8-landscape.jpg', caption: 'To many more like this ❤️', orientation: 'landscape' },
     ] as Photo[],
     nextButton: 'Okay, what else? 👀',
   },
