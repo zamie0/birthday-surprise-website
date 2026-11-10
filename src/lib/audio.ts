@@ -192,6 +192,9 @@ const synth: Record<SfxName, () => void> = {
   },
 };
 
+/** '/audio/x.mp3' would skip the GitHub Pages sub-folder; make it relative. */
+const rel = (p: string) => p.replace(/^\/+/, '');
+
 const sfxEls: Partial<Record<SfxName, HTMLAudioElement>> = {};
 
 export function sfx(name: SfxName) {
@@ -200,7 +203,7 @@ export function sfx(name: SfxName) {
   if (path) {
     let el = sfxEls[name];
     if (!el) {
-      el = new Audio(path);
+      el = new Audio(rel(path));
       sfxEls[name] = el;
     }
     el.currentTime = 0;
@@ -252,7 +255,7 @@ export function startMusic() {
   }
   const src = birthday.audio.music;
   if (src) {
-    musicEl = new Audio(src);
+    musicEl = new Audio(rel(src));
     musicEl.loop = true;
     musicEl.volume = birthday.audio.musicVolume;
     musicEl.muted = muted;

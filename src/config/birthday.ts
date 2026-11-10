@@ -64,14 +64,14 @@ export const birthday = {
      * A missing file automatically shows a cute placeholder.
      */
     photos: [
-      { src: '/images/memory-1.jpg', caption: 'Where it all started ✨', orientation: 'portrait' },
-      { src: '/images/memory-2.jpg', caption: 'That one day we laughed too much', orientation: 'landscape' },
-      { src: '/images/memory-3.jpg', caption: 'Food dates are the best dates 🍜', orientation: 'portrait' },
-      { src: '/images/memory-4.jpg', caption: 'My favourite view', orientation: 'square' },
-      { src: '/images/memory-5.jpg', caption: 'Adventure mode: ON', orientation: 'landscape' },
-      { src: '/images/memory-6.jpg', caption: 'Us being us 🤭', orientation: 'portrait' },
-      { src: '/images/memory-7.jpg', caption: 'Little moments, big smiles', orientation: 'portrait' },
-      { src: '/images/memory-8-landscape.jpg', caption: 'To many more like this ❤️', orientation: 'landscape' },
+      { src: 'images/memory-1.jpg', caption: 'Where it all started ✨', orientation: 'portrait' },
+      { src: 'images/memory-2.jpg', caption: 'That one day we laughed too much', orientation: 'landscape' },
+      { src: 'images/memory-3.jpg', caption: 'Food dates are the best dates 🍜', orientation: 'portrait' },
+      { src: 'images/memory-4.jpg', caption: 'My favourite view', orientation: 'square' },
+      { src: 'images/memory-5.jpg', caption: 'Adventure mode: ON', orientation: 'landscape' },
+      { src: 'images/memory-6.jpg', caption: 'Us being us 🤭', orientation: 'portrait' },
+      { src: 'images/memory-7.jpg', caption: 'Little moments, big smiles', orientation: 'portrait' },
+      { src: 'images/memory-8-landscape.jpg', caption: 'To many more like this ❤️', orientation: 'landscape' },
     ] as Photo[],
     nextButton: 'Okay, what else? 👀',
   },
@@ -203,7 +203,7 @@ export const birthday = {
   audio: {
     /**
      * Background music. Put an mp3 in /public/audio/ and set the path,
-     * e.g. '/audio/birthday-music.mp3'.
+     * e.g. 'audio/birthday-music.mp3' (no leading slash, so it works on GitHub Pages).
      * Leave '' to use the built-in soft music-box "Happy Birthday".
      */
     music: '',

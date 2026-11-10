@@ -82,7 +82,7 @@ Then update each entry in `birthday.memories.photos`:
 
 ```ts
 {
-  src: '/images/memory-1.jpg',
+  src: 'images/memory-1.jpg',
   caption: 'Where it all started ✨',
   orientation: 'portrait'
 }
